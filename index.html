@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Вставай — Прогрес збору на реабілітацію</title>
+<meta name="description" content="Прогрес збору «Вставай» — 100 курсів реабілітації для військових. Фонд «Твоє Майбутнє»."/>
+
+<!-- OG / соцмережі (статичні; живі цифри підставляються лише за наявності серверного кроку) -->
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Вставай — збір на реабілітацію військових"/>
+<meta property="og:description" content="Збір на 100 курсів реабілітації для військових. Долучайся — стань банкою-учасником."/>
+<meta property="og:image" content="709735815_18381322723164427_62085747877989514_n.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2316130d'/%3E%3Cpath d='M16 6l8 12h-5v8h-6v-8H8z' fill='%235d9598'/%3E%3C/svg%3E"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  --ink:#16130d;            /* теплий майже-чорний */
+  --ink-2:#2a2620;
+  --paper:#e8e0cd;          /* пісок (фон) */
+  --paper-2:#efe8d7;
+  --card:#fbf7ec;           /* поверхня картки */
+  --sea:#3f6b6d;            /* приглушений морський акцент */
+  --sea-bright:#5d9598;
+  --sea-deep:#26474a;
+  --line:#d2c3a1;           /* межі */
+  --line-soft:#e0d4b8;
+  --muted:#8a8169;          /* вторинний текст */
+  --white:#fbf9f3;
+  --good:#3f6b6d;
+  --shadow: 5px 5px 0 var(--ink);
+  --maxw:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:"Manrope",system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.5;
+  overflow-x:hidden;
+  font-variant-numeric:tabular-nums;
+}
+/* зернистість піску */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px}
+a{color:inherit}
+::selection{background:var(--sea);color:var(--white)}
+
+/* блочний мотив постера */
+.tag{
+  display:inline-block;background:var(--ink);color:var(--white);
+  font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;line-height:1.05;padding:.28em .55em;
+}
+.tag.inv{background:var(--white);color:var(--ink)}
+.tag.sea{background:var(--sea);color:var(--white)}
+
+/* ───────── reveal ───────── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1!important;transform:none!important;transition:none!important}
+  *{animation:none!important;transition:none!important}
+}
+
+/* ───────── banner ───────── */
+.banner{position:relative;z-index:1;background:var(--ink);color:var(--white);border-bottom:4px solid var(--sea)}
+.banner-in{max-width:var(--maxw);margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand-lockup{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{width:34px;height:34px;flex:none;border:2px solid var(--sea);border-radius:50%;display:grid;place-items:center;color:var(--sea-bright)}
+.brand-mark svg{width:18px;height:18px}
+.brand-txt{font-family:"Oswald",sans-serif;text-transform:uppercase;line-height:1}
+.brand-txt b{font-weight:700;letter-spacing:.08em;font-size:.92rem;display:block}
+.brand-txt span{font-size:.58rem;letter-spacing:.18em;color:#b9b3a3;font-family:"Manrope";font-weight:600}
+.wordmark{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+  font-size:clamp(1.8rem,4.6vw,2.9rem);line-height:.9;color:var(--white)}
+.wordmark .blk{background:var(--white);color:var(--ink);padding:0 .14em;margin-right:.04em}
+.banner-right{font-family:"Oswald";font-weight:500;letter-spacing:.1em;font-size:.74rem;color:#c9c3b2;text-transform:uppercase;text-align:right}
+.banner-right .tg{color:var(--sea-bright)}
+
+/* ───────── hero (split: ink-панель даних + фото-панель) ───────── */
+.hero{position:relative;z-index:1;display:grid;grid-template-columns:1.32fr .88fr;min-height:clamp(370px,42vw,500px);
+  color:var(--white);border-bottom:4px solid var(--ink);overflow:hidden;background:var(--ink)}
+.hero-data{background:var(--ink);display:flex;align-items:flex-end;position:relative;
+  background-image:radial-gradient(circle at 14% 16%,rgba(93,149,152,.22),transparent 56%)}
+.hero-photo{position:relative;background:#0f0d09 center 72%/cover no-repeat}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--ink) 0%,rgba(22,19,13,.35) 16%,transparent 38%)}
+.hero-in{position:relative;z-index:2;width:100%;max-width:680px;margin-left:auto;padding:34px clamp(20px,3.4vw,44px) 30px}
+.hero-eyebrow{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.hero-eyebrow .tag{font-size:.66rem;letter-spacing:.16em}
+.hero-figs{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:6px}
+.hero-pct{font-family:"Oswald",sans-serif;font-weight:700;font-size:clamp(3.6rem,11vw,7rem);line-height:.82;letter-spacing:-.01em;
+  text-shadow:0 2px 30px rgba(0,0,0,.4)}
+.hero-collected{padding-bottom:.5em}
+.hero-collected .lab{font-family:"Oswald";font-weight:500;text-transform:uppercase;letter-spacing:.14em;font-size:.68rem;color:#d8d2c2;margin-bottom:4px}
+.hero-collected .amt{font-family:"Oswald";font-weight:700;font-size:clamp(1.5rem,4.4vw,2.4rem);line-height:1}
+.hero-equiv{margin:12px 0 14px}
+.hero-equiv .tag{font-size:clamp(.86rem,2.4vw,1.12rem);letter-spacing:.03em;font-weight:700}
+.hero-track{height:16px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.4);max-width:680px;overflow:hidden}
+.hero-fill{height:100%;width:0;background:var(--sea-bright);box-shadow:0 0 18px rgba(93,149,152,.6);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.hero-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.hero-goal{font-family:"Oswald";font-weight:500;text-transform:uppercase;letter-spacing:.1em;font-size:.8rem;color:#e7e1d1}
+.delta-pill{display:inline-flex;align-items:center;gap:5px;background:var(--sea);color:var(--white);
+  font-family:"Oswald";font-weight:600;letter-spacing:.04em;font-size:.78rem;padding:3px 9px;text-transform:uppercase}
+.delta-pill.up::before{content:"▲";font-size:.6em}
+.forecast{margin-top:12px;font-size:.8rem;font-weight:600;color:#e7e1d1;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.forecast b{color:var(--sea-bright);font-weight:800}
+.forecast .arr{color:var(--sea-bright)}
+
+/* ───────── daily ───────── */
+.daily{position:relative;z-index:1;background:var(--paper-2);border-bottom:2px solid var(--line)}
+.daily-in{max-width:var(--maxw);margin:0 auto;padding:16px 18px;display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+.daily-title{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.82rem;
+  border-left:5px solid var(--sea);padding-left:10px;color:var(--ink)}
+.daily-metrics{display:flex;gap:24px;flex-wrap:wrap;flex:1;min-width:240px}
+.dm{display:flex;flex-direction:column;gap:2px}
+.dm .l{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.dm .v{font-family:"Oswald";font-weight:700;font-size:1.5rem;line-height:1;color:var(--ink)}
+.dm .v.sea{color:var(--sea-deep)}
+.daily-bar-wrap{flex:1;min-width:180px;max-width:340px}
+.daily-bar{height:9px;background:var(--line-soft);border:1.5px solid var(--line);overflow:hidden}
+.daily-bar i{display:block;height:100%;width:0;background:var(--sea);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.daily-bar-cap{font-size:.66rem;color:var(--muted);margin-top:5px;font-weight:600}
+.daily-empty{color:var(--muted);font-weight:600;font-size:.9rem}
+
+/* ───────── stats ───────── */
+.stats{position:relative;z-index:1;background:var(--ink);border-bottom:4px solid var(--sea)}
+.stats-in{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.stat{padding:16px 16px;border-right:1px solid #34302a;text-align:center;color:#cfc9b9}
+.stat:last-child{border-right:none}
+.stat .l{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8f897a;margin-bottom:5px}
+.stat .v{font-family:"Oswald";font-weight:700;font-size:1.7rem;line-height:1;color:var(--white);letter-spacing:.01em}
+.stat .v.sea{color:var(--sea-bright)}
+.stat .s{font-size:.72rem;color:#b6b0a0;margin-top:4px;font-weight:600}
+.stat .e{font-size:.66rem;color:var(--sea-bright);margin-top:3px;font-weight:700;letter-spacing:.02em}
+.lots-row{display:flex;gap:2px;justify-content:center;margin-top:8px;flex-wrap:wrap;max-width:170px;margin-inline:auto}
+.lots-row i{width:7px;height:7px;border:1px solid #5d5849;background:transparent}
+.lots-row i.on{background:var(--sea-bright);border-color:var(--sea-bright)}
+
+/* ───────── rishalo ───────── */
+.rishalo{position:relative;z-index:1;background:var(--ink);color:var(--white);padding:22px 0;border-bottom:4px solid var(--ink-2);
+  background-image:radial-gradient(circle at 88% 18%,rgba(93,149,152,.22),transparent 42%)}
+.rishalo-in{max-width:var(--maxw);margin:0 auto;padding:0 18px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.rishalo-badge{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:1rem;
+  display:flex;align-items:center;gap:8px;white-space:nowrap}
+.rishalo-flame{font-size:1.5rem;filter:drop-shadow(0 0 10px rgba(255,150,60,.5))}
+.rishalo-body{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;flex:1;min-width:220px}
+.rishalo-nick{font-family:"Oswald";font-weight:700;font-size:clamp(1.5rem,4vw,2.2rem);line-height:1;text-decoration:none;color:var(--white)}
+.rishalo-nick:hover{text-decoration:underline;text-decoration-color:var(--sea-bright)}
+.rishalo-gain{background:var(--sea-bright);color:var(--ink);font-family:"Oswald";font-weight:700;font-size:1.15rem;padding:3px 11px;white-space:nowrap}
+.rishalo-prog{font-size:.84rem;color:#d8d2c2;font-weight:600}
+.rishalo-asof{font-size:.66rem;color:#9a9484;letter-spacing:.04em;margin-top:2px;width:100%}
+.copy-btn{font-family:"Manrope";font-weight:700;font-size:.78rem;background:transparent;color:var(--white);
+  border:2px solid var(--sea-bright);padding:9px 14px;cursor:pointer;white-space:nowrap;
+  transition:background .15s,color .15s;display:inline-flex;gap:7px;align-items:center}
+.copy-btn:hover{background:var(--sea-bright);color:var(--ink)}
+.copy-btn.done{background:var(--sea-bright);color:var(--ink)}
+.rishalo-empty{color:#b6b0a0;font-weight:600}
+
+/* ───────── grid ───────── */
+.section{position:relative;z-index:1}
+.grid-head{max-width:var(--maxw);margin:30px auto 16px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.grid-title{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:1.9rem;
+  border-left:6px solid var(--sea);padding-left:12px}
+.grid-count{font-size:.74rem;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.grid{max-width:var(--maxw);margin:0 auto;padding:0 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:13px}
+.card{position:relative;background:var(--card);border:1.5px solid var(--line);padding:15px 16px 13px;
+  transition:transform .14s,box-shadow .14s,border-color .14s}
+.card:hover{transform:translate(-3px,-3px);box-shadow:var(--shadow);border-color:var(--ink)}
+.card.closed{opacity:.62;background:#f1ebdd}
+.card.closed:hover{transform:none;box-shadow:none;border-color:var(--line)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:11px}
+.jar-name{font-family:"Oswald";font-weight:600;font-size:1.22rem;letter-spacing:.02em;text-decoration:none;color:var(--ink);word-break:break-word}
+a.jar-name:hover{text-decoration:underline;text-decoration-color:var(--sea)}
+.card.closed .jar-name{color:#8b8473}
+.badges{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.badge{font-family:"Oswald";font-weight:600;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;white-space:nowrap}
+.badge.active{background:var(--sea);color:var(--white)}
+.badge.closed{background:#ddd5c4;color:#7d7765}
+.badge.gift{background:var(--white);color:var(--ink);border:1.5px solid var(--ink)}
+.badge.drawn{background:var(--ink);color:var(--white)}
+.amounts{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.amt-c{font-family:"Oswald";font-weight:700;font-size:1.5rem;color:var(--ink);line-height:1}
+.card.closed .amt-c{color:#8b8473}
+.amt-sep{font-size:.78rem;color:var(--muted)}
+.amt-g{font-size:.82rem;color:var(--muted);font-weight:700}
+.card-delta{margin-left:auto;background:var(--sea);color:var(--white);font-family:"Oswald";font-weight:600;font-size:.72rem;padding:2px 7px;white-space:nowrap}
+.nodata{font-size:.84rem;color:#b3ac99;font-weight:600}
+.ptrack{height:10px;background:var(--paper);border:1.5px solid var(--line);overflow:hidden;margin-bottom:6px}
+.pfill{height:100%;width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.card.closed .pfill{background:#c3b89c!important}
+.pct{font-family:"Oswald";font-weight:600;font-size:.95rem;text-align:right;letter-spacing:.03em}
+
+/* ───────── cta ───────── */
+.cta{max-width:var(--maxw);margin:34px auto 0;padding:0 18px}
+.cta-box{background:var(--ink);color:var(--white);padding:30px 26px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  border:2px solid var(--ink);background-image:radial-gradient(circle at 92% 0%,rgba(93,149,152,.22),transparent 46%)}
+.cta-txt{flex:1;min-width:240px}
+.cta-txt h3{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1;margin-bottom:9px}
+.cta-txt p{color:#d8d2c2;font-size:.95rem;font-weight:500;max-width:48ch}
+.cta-btn{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:1.05rem;
+  background:var(--sea-bright);color:var(--ink);padding:15px 30px;text-decoration:none;white-space:nowrap;border:2px solid var(--sea-bright);
+  transition:background .15s,color .15s}
+.cta-btn:hover{background:transparent;color:var(--white)}
+
+/* ───────── footer ───────── */
+.footer{max-width:var(--maxw);margin:28px auto 0;padding:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  border-top:1.5px solid var(--line);color:var(--muted);font-size:.74rem;font-weight:600}
+.footer .src{letter-spacing:.02em}
+.footer a{color:var(--sea-deep);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+/* ───────── states ───────── */
+.overlay{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;text-align:center;padding:24px;transition:opacity .5s}
+.overlay.hide{opacity:0;pointer-events:none}
+.loader{display:flex;flex-direction:column;align-items:center;gap:18px}
+.loader-mark{width:46px;height:46px;border:4px solid var(--line);border-top-color:var(--sea);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader p{font-family:"Oswald";text-transform:uppercase;letter-spacing:.14em;font-size:.8rem;color:var(--muted)}
+.err{max-width:420px}
+.err h2{font-family:"Oswald";text-transform:uppercase;font-size:1.4rem;margin-bottom:8px}
+.err p{color:var(--muted);margin-bottom:18px}
+.err button{font-family:"Oswald";font-weight:600;text-transform:uppercase;letter-spacing:.06em;background:var(--ink);color:var(--white);border:none;padding:12px 22px;cursor:pointer}
+
+/* skeleton shimmer */
+.skel{background:linear-gradient(100deg,var(--line-soft) 30%,var(--paper-2) 50%,var(--line-soft) 70%);background-size:200% 100%;animation:sh 1.4s infinite;color:transparent!important;border-radius:2px}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* ───────── embed mode ───────── */
+body.embed .banner,body.embed .footer{display:none!important}
+body.embed .hero{border-top:4px solid var(--sea)}
+
+/* ───────── responsive ───────── */
+@media (max-width:760px){
+  .stats-in{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(odd){border-right:1px solid #34302a}
+  .stat:nth-child(even){border-right:none}
+  .stat{border-top:1px solid #34302a}
+  .stat:nth-child(1),.stat:nth-child(2){border-top:none}
+  .stat:nth-child(5){grid-column:1 / -1;border-right:none}
+  .lots-row{display:none}
+  .daily-bar-wrap{max-width:none}
+}
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .hero-photo{order:-1;min-height:190px;background-position:center 64%}
+  .hero-photo::after{background:linear-gradient(0deg,var(--ink) 0%,rgba(22,19,13,.25) 42%,transparent 70%)}
+  .hero-in{margin:0;max-width:none}
+}
+@media (max-width:600px){
+  .hero-in{padding:24px 18px 24px}
+  .grid{grid-template-columns:1fr}
+  .grid-title{font-size:1.55rem}
+  .cta-box{padding:24px 20px}
+  .cta-btn{width:100%;text-align:center}
+  .daily-in{gap:14px}
+  .rishalo-in{gap:14px}
+  .copy-btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING / ERROR -->
+<div class="overlay" id="overlay">
+  <div class="loader" id="loader">
+    <div class="loader-mark"></div>
+    <p>Завантажуємо дані збору…</p>
+  </div>
+  <div class="err" id="errbox" style="display:none">
+    <h2>Не вдалося завантажити дані</h2>
+    <p>Перевірте з'єднання з інтернетом і спробуйте ще раз.</p>
+    <button onclick="location.reload()">Спробувати ще раз</button>
+  </div>
+</div>
+
+<!-- BANNER (приховано в embed) -->
+<header class="banner">
+  <div class="banner-in">
+    <div class="brand-lockup">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 10h-4.3v8H9.3v-8H5z" fill="currentColor"/></svg>
+      </span>
+      <span class="brand-txt"><b>Твоє Майбутнє</b><span>Клуб реабілітаційних рішень</span></span>
+    </div>
+    <h1 class="wordmark"><span class="blk">В</span>СТАВАЙ</h1>
+    <div class="banner-right">Збір на реабілітацію військових<br><span class="tg">@yourfuture.in.ua</span></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-data">
+  <div class="hero-in">
+    <div class="hero-eyebrow">
+      <span class="tag sea">Загальний прогрес</span>
+    </div>
+    <div class="hero-figs">
+      <div class="hero-pct" id="heroPct">0%</div>
+      <div class="hero-collected">
+        <div class="lab">Зібрано</div>
+        <div class="amt" id="heroAmt">— ₴</div>
+      </div>
+    </div>
+    <div class="hero-equiv"><span class="tag inv" id="heroEquiv">= 0 реабілітацій з 100</span></div>
+    <div class="hero-track"><div class="hero-fill" id="heroFill"></div></div>
+    <div class="hero-meta">
+      <span class="hero-goal">до мети 4 240 000 ₴</span>
+      <span class="delta-pill up" id="heroDelta" style="display:none"></span>
+    </div>
+    <div class="forecast" id="forecast"></div>
+  </div>
+  </div>
+  <div class="hero-photo" id="heroPhoto" role="img" aria-label="Військовий на реабілітації йде узбережжям"></div>
+</section>
+
+<!-- DAILY PROGRESS -->
+<section class="daily" id="daily">
+  <div class="daily-in">
+    <div class="daily-title">Денний прогрес</div>
+    <div id="dailyContent" style="display:contents"></div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="stats">
+  <div class="stats-in" id="stats"></div>
+</section>
+
+<!-- РІШАЛО ДНЯ -->
+<section class="rishalo" id="rishalo">
+  <div class="rishalo-in" id="rishaloIn"></div>
+</section>
+
+<!-- CARDS -->
+<section class="section">
+  <div class="grid-head">
+    <h2 class="grid-title">Банки учасників</h2>
+    <span class="grid-count" id="gridCount"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta" style="display:none">
+  <div class="cta-box">
+    <div class="cta-txt">
+      <h3>Наступна банка — твоя</h3>
+      <p>Долучайся до збору «Вставай»: відкрий власну банку, збери на курс реабілітації для побратима — і потрап у розіграш призів від брендів-партнерів.</p>
+    </div>
+    <a class="cta-btn" id="ctaBtn" href="#" target="_blank" rel="noopener">Стати учасником</a>
+  </div>
+</section>
+
+<!-- FOOTER (приховано в embed) -->
+<footer class="footer">
+  <span class="src" id="footSrc"></span>
+  <span>Фонд «Твоє Майбутнє» · <a href="https://yourfuture.in.ua" target="_blank" rel="noopener">yourfuture.in.ua</a></span>
+</footer>
+
+<script>
+/* ============================================================
+   ВСТАВАЙ — живий дашборд збору
+   Дані тягнуться напряму з Google Sheets (gviz) у браузері.
+   Жодної регенерації: онови таблицю → онови сторінку.
+   ============================================================ */
+
+const CONFIG = {
+  sheetId: "1xdAiW4RMRWVXDKl4Bycw3rVkjKdt8miEJjZtfrtlUYQ",
+  banksGid: "0",                      // основний аркуш (перша вкладка) — за gid, без назви
+  snapshotsSheet: "snapshots",        // опційний аркуш (денний прогрес)
+  jarSnapshotsSheet: "jar_snapshots", // опційний аркуш (Рішала дня)
+  // параметри кампанії
+  goal: 4240000,
+  courseCost: 42400,
+  courses: 100,
+  totalLots: 42,
+  deadline: "2026-06-30",   // TZ §8 — уточнити; формат YYYY-MM-DD (Київ, UTC+3)
+  updateHours: 4,           // частота оновлення ~3–4 год
+  mainJarBalance: 0,        // баланс «Основної банки» фонду, ₴ (браузер не читає monobank). 0 = рахувати лише банки учасників; впишіть число вручну за потреби
+  // плейсхолдери замовника (TZ §8)
+  ctaUrl: "#",              // → URL кнопки «Стати учасником»
+  heroPhoto: "hero.jpg",    // чистий кроп кампанійного фото (без накладеного тексту)
+};
+
+/* ---------- helpers ---------- */
+const $ = (s,r=document)=>r.querySelector(s);
+const KYIV_OFF = 3*3600*1000; // UTC+3 (TZ)
+const fmtMoney = (n,dec=2)=> (n==null||isNaN(n)) ? "—" :
+  new Intl.NumberFormat("uk-UA",{minimumFractionDigits:dec,maximumFractionDigits:dec}).format(n)+" ₴";
+const fmtInt = n => new Intl.NumberFormat("uk-UA").format(Math.round(n));
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = u => (typeof u==="string" && /^https?:\/\//i.test(u)) ? u : null;
+const floorRehab = total => Math.floor((total||0)/CONFIG.courseCost);
+const clampPct = p => Math.max(0,Math.min(100,p));
+const reduceMotion = matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+// морський «heat» — більше виконано → глибший тон
+function fillColor(pct){
+  const p=clampPct(pct)/100;
+  return `hsl(184,${Math.round(24+p*16)}%,${Math.round(54-p*26)}%)`;
+}
+// парсинг суми з gviz: число, або український рядок "12 345,67 грн". Текст-нотатки → null
+function parseAmount(v){
+  if(v==null||v==="") return null;
+  if(typeof v==="number") return isFinite(v)?v:null;
+  let s=String(v).replace(/грн\.?|₴|uah/gi,"").trim();
+  if(/[^\d\s.,'’  +-]/.test(s)) return null;   // лишилися літери (нотатка) → не сума
+  s=s.replace(/[^\d.,-]/g,"");
+  if(s==="") return null;
+  if(s.includes(",")&&s.includes(".")) s=s.replace(/\./g,"").replace(",",".");
+  else if(s.includes(",")) s=s.replace(",",".");
+  const n=parseFloat(s); return isNaN(n)?null:n;
+}
+// gviz дата "Date(2026,4,26,10,52,0)" → Date
+function parseGvizDate(v){
+  if(v==null) return null;
+  const m=/^Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+),(\d+))?\)$/.exec(String(v));
+  if(!m) { const d=new Date(v); return isNaN(d)?null:d; }
+  return new Date(Date.UTC(+m[1],+m[2],+m[3],(+m[4]||0)-3,(+m[5]||0),(+m[6]||0))); // трактуємо як Київ
+}
+function kyivYMD(date){ const t=new Date(date.getTime()+KYIV_OFF); return t.getUTCFullYear()+"-"+String(t.getUTCMonth()+1).padStart(2,"0")+"-"+String(t.getUTCDate()).padStart(2,"0"); }
+function kyivHM(date){ const t=new Date(date.getTime()+KYIV_OFF); return String(t.getUTCHours()).padStart(2,"0")+":"+String(t.getUTCMinutes()).padStart(2,"0"); }
+function kyivDateStr(date){ const t=new Date(date.getTime()+KYIV_OFF); return String(t.getUTCDate()).padStart(2,"0")+"."+String(t.getUTCMonth()+1).padStart(2,"0")+"."+t.getUTCFullYear()+" "+kyivHM(date); }
+function daysUntil(deadlineStr, fromDate){
+  const f=new Date(fromDate.getTime()+KYIV_OFF);              // календарна різниця у днях (Київ)
+  const fM=Date.UTC(f.getUTCFullYear(),f.getUTCMonth(),f.getUTCDate());
+  const [y,m,d]=deadlineStr.split("-").map(Number);
+  return Math.max(1, Math.round((Date.UTC(y,m-1,d)-fM)/86400000));
+}
+
+/* ---------- gviz через JSONP (працює навіть з file:// — без CORS і без сервера) ---------- */
+let __cbId=0;
+function gvizJSONP(selector){   // selector: "gid=0" або "sheet=Назва"
+  return new Promise((resolve,reject)=>{
+    const cb="__gviz_"+Date.now().toString(36)+"_"+(__cbId++);   // унікальний → свіжі дані щоразу
+    const url=`https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/gviz/tq?tqx=out:json;responseHandler:${cb}&${selector}`;
+    const s=document.createElement("script");
+    const timer=setTimeout(()=>{ cleanup(); reject(new Error("timeout: "+selector)); },15000);
+    function cleanup(){ try{delete window[cb];}catch(e){window[cb]=undefined;} s.remove(); clearTimeout(timer); }
+    window[cb]=data=>{ cleanup(); resolve(data); };
+    s.onerror=()=>{ cleanup(); reject(new Error("load error: "+selector)); };
+    s.src=url; document.head.appendChild(s);
+  });
+}
+const cellV=(row,i)=>{ const c=row.c&&row.c[i]; return c?c.v:null; };
+
+async function gvizRowsByLabel(sheet){
+  const d=await gvizJSONP("sheet="+encodeURIComponent(sheet));
+  if(!d || !d.table) throw new Error("no table: "+sheet);
+  const labels=d.table.cols.map(c=>(c.label||"").trim());
+  return d.table.rows.map(r=>{
+    const o={}; d.table.cols.forEach((c,i)=>{ o[labels[i]||("col"+i)]=cellV(r,i); o["_"+i]=cellV(r,i); });
+    return o;
+  });
+}
+
+/* ---------- load (наживо з таблиці) ---------- */
+// колонки шукаємо за заголовком (стійко до різних схем таблиці), а не за позицією
+function colFinder(cols){
+  const labels=cols.map(c=>(c.label||"").toLowerCase().replace(/\s+/g," ").trim());
+  return (...keys)=>{ for(const k of keys){ const i=labels.findIndex(l=>l.includes(k)); if(i>=0) return i; } return -1; };
+}
+async function loadData(){
+  const d=await gvizJSONP("gid="+CONFIG.banksGid);
+  if(!d || !d.table || !d.table.rows) throw new Error("no table: "+CONFIG.banksSheet);
+  const find=colFinder(d.table.cols);
+  const ix={
+    name:      find("ім","имя","name"),
+    goal:      find("сума банки","ціль","сума","goal"),
+    raffle:    find("розіграш","розиграш","raffle"),
+    closed:    find("закрита","статус","status"),
+    mono:      find("банку моно","на моно","monobank","моно"),
+    collected: find("зібрано факт","зібрано","фактично","collected"),
+    post:      find("на пост","пост"),
+    social:    find("соцмереж"),
+    drawn:     find("розіграно"),
+  };
+  if(ix.name<0) ix.name=0;
+  const cell=(row,i)=> (i>=0 && row.c[i]) ? row.c[i].v : null;
+
+  const jars=d.table.rows.map(row=>{
+    const name=cell(row,ix.name);
+    if(name==null || String(name).trim()==="") return null;
+    const mono=String(cell(row,ix.mono)||"").trim();
+    const slugM=/\/jar\/([A-Za-z0-9]+)/.exec(mono);
+    const raffleV=String(cell(row,ix.raffle)||"").trim().toLowerCase();
+    const closedV=String(cell(row,ix.closed)||"").trim().toLowerCase();
+    const drawnV =String(cell(row,ix.drawn) ||"").trim().toLowerCase();
+    return {
+      name:String(name).trim(),
+      goal:parseAmount(cell(row,ix.goal)),
+      raffle:/^(є|так|yes|✓|\+|1)/.test(raffleV),
+      status: closedV.includes("закрит") ? "Закрита" : "Активна",   // «ЗАКРИТА»/«Закрита» → закрита; решта → активна
+      post:String(cell(row,ix.post)||cell(row,ix.social)||"").trim(),
+      mono, slug: slugM?slugM[1]:"",
+      drawn:/^(так|є|yes|✓|1)/.test(drawnV),
+      liveCollected:parseAmount(cell(row,ix.collected)),
+    };
+  }).filter(Boolean);
+
+  const snaps=await tryLoadSnapshots();
+  return finalize(jars, [], snaps, new Date());
+}
+
+// опційні аркуші snapshots / jar_snapshots
+async function tryLoadSnapshots(){
+  try{
+    const snap=await gvizRowsByLabel(CONFIG.snapshotsSheet);
+    // ВАЖЛИВО: gviz для неіснуючого аркуша віддає перший аркуш — перевіряємо форму
+    const looksValid = snap.length && snap.some(r=>parseGvizDate(r["_0"]) && parseAmount(r["_1"])!=null);
+    if(!looksValid) return null;
+    const jarSnap=await gvizRowsByLabel(CONFIG.jarSnapshotsSheet).catch(()=>[]);
+    const jarValid = jarSnap.length && jarSnap.some(r=>parseGvizDate(r["_0"]));
+    return {snap, jarSnap: jarValid?jarSnap:[]};
+  }catch(e){ return null; }
+}
+
+/* ---------- compute everything ---------- */
+function finalize(jars, raffle, snaps, asOf){
+  jars.forEach(j=>{
+    j.collected = (j.liveCollected!=null) ? j.liveCollected : 0;   // стовпець G порожній → 0 (без мок-даних)
+    j.hasData = (j.goal!=null);                                     // рядки без цілі = заготовки
+    j.pct = j.goal ? clampPct(j.collected/j.goal*100) : null;
+  });
+
+  // денний прогрес і «Рішала» — лише з аркушів snapshots / jar_snapshots (якщо їх веде бекенд)
+  const dayKey=kyivYMD(asOf);
+  let dailyCollected=null, perJarDelta={};
+  if(snaps && snaps.snap){
+    const todays=snaps.snap.map(r=>({t:parseGvizDate(r["_0"]),tot:parseAmount(r["_1"])}))
+      .filter(x=>x.t && kyivYMD(x.t)===dayKey).sort((a,b)=>a.t-b.t);
+    if(todays.length){
+      const totalNow=jars.reduce((s,j)=>s+j.collected,0)+CONFIG.mainJarBalance;
+      dailyCollected=Math.max(0,totalNow-todays[0].tot);
+    }
+    if(snaps.jarSnap && snaps.jarSnap.length){
+      const firstBy={};
+      snaps.jarSnap.map(r=>({t:parseGvizDate(r["_0"]),name:String(r["_1"]||"").trim(),slug:(/\/jar\/([A-Za-z0-9]+)/.exec(String(r["_2"]||""))||[])[1],coll:parseAmount(r["_3"])}))
+        .filter(x=>x.t && kyivYMD(x.t)===dayKey).sort((a,b)=>a.t-b.t)
+        .forEach(x=>{ const k=x.slug||x.name; if(firstBy[k]==null) firstBy[k]=x.coll; });
+      jars.forEach(j=>{ const k=j.slug||j.name; if(firstBy[k]!=null) perJarDelta[k]=j.collected-firstBy[k]; });
+    }
+  }
+  jars.forEach(j=>{ const k=j.slug||j.name; j.delta = (perJarDelta[k]!=null)?perJarDelta[k]:null; });
+
+  const isActive=j=>j.status==="Активна";
+  const isClosed=j=>j.status==="Закрита";
+  const sumColl=arr=>arr.reduce((s,j)=>s+j.collected,0);
+  const active=jars.filter(isActive), closed=jars.filter(isClosed);
+  const total=sumColl(jars)+CONFIG.mainJarBalance;   // банки учасників + основна банка фонду (CONFIG)
+
+  // Рішала дня — активна банка з max денним приростом (потрібен аркуш jar_snapshots)
+  let rishalo=null;
+  active.forEach(j=>{
+    const d=j.delta;
+    if(d!=null && d>0){
+      if(!rishalo || d>rishalo.delta || (d===rishalo.delta && (j.pct||0)>(rishalo.j.pct||0)))
+        rishalo={j, delta:d};
+    }
+  });
+
+  // лоти
+  const lotsDrawn=jars.filter(j=>j.drawn).length;
+  const lotsRemaining=CONFIG.totalLots-lotsDrawn;
+  const lotsLinked=jars.filter(j=>j.raffle).length;
+
+  const days=daysUntil(CONFIG.deadline, asOf);
+  const needPerDay=Math.max(0,(CONFIG.goal-total)/days);
+
+  return {
+    jars, raffle, asOf,
+    total, pct:clampPct(total/CONFIG.goal*100), rehab:floorRehab(total),
+    activeCount:active.length, activeSum:sumColl(active), activeRehab:floorRehab(sumColl(active)),
+    closedCount:closed.length, closedSum:sumColl(closed), closedRehab:floorRehab(sumColl(closed)),
+    dailyCollected, dailyGoal:needPerDay, days, needPerDay,
+    rishalo, lotsDrawn, lotsRemaining, lotsLinked,
+  };
+}
+
+/* ---------- count-up ---------- */
+function countUp(el, to, fmt, dur=1100){
+  if(reduceMotion){ el.textContent=fmt(to); return; }
+  const t0=performance.now();
+  (function step(now){
+    const p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);
+    el.textContent=fmt(to*e);
+    if(p<1) requestAnimationFrame(step);
+  })(t0);
+}
+
+/* ---------- render ---------- */
+function render(M){
+  // hero photo
+  if(CONFIG.heroPhoto) $("#heroPhoto").style.backgroundImage=`url("${CONFIG.heroPhoto}")`;
+
+  // hero figures
+  countUp($("#heroPct"), M.pct, v=>v.toFixed(1)+"%");
+  countUp($("#heroAmt"), M.total, v=>fmtMoney(v));
+  $("#heroEquiv").textContent=`= ${M.rehab} ${plural(M.rehab,"реабілітація","реабілітації","реабілітацій")} з ${CONFIG.courses}`;
+  requestAnimationFrame(()=>{ $("#heroFill").style.width=M.pct.toFixed(2)+"%"; });
+
+  if(M.dailyCollected!=null && M.dailyCollected>0){
+    const hd=$("#heroDelta"); hd.style.display=""; hd.textContent=`+${fmtMoney(M.dailyCollected,0)} сьогодні`;
+  }
+  // forecast
+  $("#forecast").innerHTML=`<span class="arr">↗</span> Прогноз: до ${dl()} — <b>${M.days}</b> дн · потрібно <b>${fmtMoney(M.needPerDay,0)}</b>/день`
+    + (M.dailyCollected!=null?` · сьогодні <b>${fmtMoney(M.dailyCollected,0)}</b>/день`:"");
+
+  renderDaily(M);
+  renderStats(M);
+  renderRishalo(M);
+  renderGrid(M);
+  renderCTA(M);
+
+  // footer
+  $("#footSrc").innerHTML = `Оновлено: ${kyivDateStr(M.asOf)} · наступне ~${CONFIG.updateHours} год · дані наживо з Google&nbsp;Sheets`;
+
+  // reveal
+  setupReveal();
+}
+
+function dl(){ const [y,m,d]=CONFIG.deadline.split("-"); return `${d}.${m}`; }
+function shortDate(date){ const t=new Date(date.getTime()+KYIV_OFF); return String(t.getUTCDate()).padStart(2,"0")+"."+String(t.getUTCMonth()+1).padStart(2,"0"); }
+function plural(n,one,few,many){ n=Math.abs(n)%100; const n1=n%10;
+  if(n>10&&n<20) return many; if(n1>1&&n1<5) return few; if(n1===1) return one; return many; }
+
+function renderDaily(M){
+  const box=$("#dailyContent");
+  if(M.dailyCollected==null){
+    box.innerHTML=`<div class="daily-empty">Дані з'являться після першого оновлення сьогодні</div>`;
+    return;
+  }
+  const ratio=clampPct(M.dailyGoal>0?M.dailyCollected/M.dailyGoal*100:0);
+  box.innerHTML=`
+    <div class="daily-metrics">
+      <div class="dm"><span class="l">Зібрано сьогодні</span><span class="v sea">+${fmtMoney(M.dailyCollected,0)}</span></div>
+      <div class="dm"><span class="l">Ціль на день</span><span class="v">${fmtMoney(M.dailyGoal,0)}</span></div>
+    </div>
+    <div class="daily-bar-wrap">
+      <div class="daily-bar"><i id="dailyFill"></i></div>
+      <div class="daily-bar-cap">${ratio.toFixed(0)}% денної цілі · оновлено о ${kyivHM(M.asOf)} · наступне ~${CONFIG.updateHours} год</div>
+    </div>`;
+  requestAnimationFrame(()=>{ const f=$("#dailyFill"); if(f) f.style.width=ratio.toFixed(1)+"%"; });
+}
+
+function renderStats(M){
+  const chips=[
+    {l:"Збір на",v:String(CONFIG.courses),vc:"sea",s:"реабілітацій"},
+    {l:"Активних банок",v:fmtInt(M.activeCount),vc:"sea",s:fmtMoney(M.activeSum,0),e:`≈ ${M.activeRehab} ${plural(M.activeRehab,"реабілітація","реабілітації","реабілітацій")}`},
+    {l:"Закритих банок",v:fmtInt(M.closedCount),vc:"",s:fmtMoney(M.closedSum,0),e:`≈ ${M.closedRehab} ${plural(M.closedRehab,"реабілітація","реабілітації","реабілітацій")}`},
+    {l:"Всього зібрано",v:fmtMoney(M.total,0),vc:"sea",s:`з ${fmtMoney(CONFIG.goal,0)}`,small:true},
+    {l:"Лоти",v:`${M.lotsDrawn} / ${CONFIG.totalLots}`,vc:"",s:`розіграно · ${M.lotsRemaining} залишилось`,lots:true},
+  ];
+  $("#stats").innerHTML=chips.map(c=>{
+    let inner=`<div class="l">${c.l}</div><div class="v ${c.vc}" ${c.small?'style="font-size:1.25rem"':""}>${c.v}</div>`;
+    if(c.s) inner+=`<div class="s">${c.s}</div>`;
+    if(c.e) inner+=`<div class="e">${c.e}</div>`;
+    if(c.lots){
+      let cells=""; for(let i=0;i<CONFIG.totalLots;i++) cells+=`<i class="${i<M.lotsDrawn?"on":""}"></i>`;
+      inner+=`<div class="lots-row">${cells}</div>`;
+    }
+    return `<div class="stat">${inner}</div>`;
+  }).join("");
+}
+
+function renderRishalo(M){
+  const box=$("#rishaloIn");
+  if(!M.rishalo){
+    box.innerHTML=`<div class="rishalo-badge"><span class="rishalo-flame">🔥</span> Рішала дня</div>
+      <div class="rishalo-empty">Сьогодні ще немає даних для визначення лідера дня.</div>`;
+    return;
+  }
+  const j=M.rishalo.j, url=safeUrl(j.mono), pct=Math.round(j.pct||0);
+  const nick=esc(j.name);
+  const k1=`🔥 Рішала дня — ${j.name.startsWith("@")?j.name:"@"+j.name}: +${fmtMoney(M.rishalo.delta,0)} за сьогодні · прогрес: ${pct}%${url?" · "+url:""}`;
+  box.innerHTML=`
+    <div class="rishalo-badge"><span class="rishalo-flame">🔥</span> Рішала дня</div>
+    <div class="rishalo-body">
+      ${url?`<a class="rishalo-nick" href="${url}" target="_blank" rel="noopener">${nick}</a>`:`<span class="rishalo-nick">${nick}</span>`}
+      <span class="rishalo-gain">+${fmtMoney(M.rishalo.delta,0)} за сьогодні</span>
+      <span class="rishalo-prog">прогрес: ${pct}% · ${fmtMoney(j.collected,0)}</span>
+      <span class="rishalo-asof">станом на ${kyivHM(M.asOf)}</span>
+    </div>
+    <button class="copy-btn" id="copyBtn">📋 Скопіювати для Telegram</button>`;
+  $("#copyBtn").addEventListener("click",async e=>{
+    const b=e.currentTarget;
+    try{ await navigator.clipboard.writeText(k1); }
+    catch(_){ const ta=document.createElement("textarea");ta.value=k1;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove(); }
+    b.classList.add("done"); b.textContent="✓ Скопійовано!";
+    setTimeout(()=>{ b.classList.remove("done"); b.textContent="📋 Скопіювати для Telegram"; },2200);
+  });
+}
+
+function renderGrid(M){
+  const rank=j=> j.status==="Закрита"?2 : (!j.hasData?1:0);
+  const sorted=[...M.jars].sort((a,b)=>{
+    const ra=rank(a),rb=rank(b); if(ra!==rb) return ra-rb;
+    return (b.pct??-1)-(a.pct??-1) || (b.collected||0)-(a.collected||0);
+  });
+  $("#gridCount").textContent=`${M.activeCount} активних · ${M.closedCount} закритих`;
+  $("#grid").innerHTML=sorted.map((j,i)=>card(j,i)).join("");
+}
+
+function card(j,i){
+  const closed=j.status==="Закрита";
+  const url=safeUrl(j.mono);
+  const nameHtml=url?`<a class="jar-name" href="${url}" target="_blank" rel="noopener">${esc(j.name)}</a>`:`<span class="jar-name">${esc(j.name)}</span>`;
+  let badges=`<span class="badge ${closed?"closed":"active"}">${closed?"Закрита":"Активна"}</span>`;
+  if(closed && j.drawn) badges+=`<span class="badge drawn">Лот розіграно</span>`;
+  else if(j.raffle) badges+=`<span class="badge gift">🎁 Лот</span>`;
+  let body;
+  if(!j.hasData){
+    body=`<div class="nodata">Дані відсутні</div><div class="ptrack"><div class="pfill" style="width:0"></div></div>`;
+  }else{
+    const pct=j.pct||0, col=closed?"#c3b89c":fillColor(pct);
+    const showDelta=!closed && j.delta!=null && j.delta>0;
+    body=`<div class="amounts">
+        <span class="amt-c">${fmtMoney(j.collected,0)}</span>
+        <span class="amt-sep">з</span>
+        <span class="amt-g">${j.goal?fmtMoney(j.goal,0):"—"}</span>
+        ${showDelta?`<span class="card-delta">+${fmtMoney(j.delta,0)}</span>`:""}
+      </div>
+      <div class="ptrack"><div class="pfill" data-w="${pct.toFixed(1)}" style="background:${col}"></div></div>
+      <div class="pct" style="color:${closed?'#9a9180':'var(--sea-deep)'}">${Math.round(pct)}%</div>`;
+  }
+  return `<article class="card ${closed?"closed":""} reveal" style="transition-delay:${Math.min(i*22,400)}ms">
+    <div class="card-top">${nameHtml}<div class="badges">${badges}</div></div>${body}</article>`;
+}
+
+function renderCTA(M){
+  if(M.activeCount < CONFIG.totalLots){
+    $("#cta").style.display="";
+    const u=safeUrl(CONFIG.ctaUrl);
+    const btn=$("#ctaBtn");
+    if(u){ btn.href=u; } else { btn.href="#"; btn.title="URL надасть замовник (TZ §8)"; }
+  }
+}
+
+/* ---------- reveal on scroll ---------- */
+function setupReveal(){
+  const els=document.querySelectorAll(".reveal");
+  if(reduceMotion || !("IntersectionObserver" in window)){ els.forEach(e=>e.classList.add("in")); return; }
+  const io=new IntersectionObserver((ents)=>{
+    ents.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  },{threshold:.12,rootMargin:"0px 0px -40px 0px"});
+  els.forEach(e=>io.observe(e));
+  // анімувати заповнення карток
+  setTimeout(()=>document.querySelectorAll(".pfill[data-w]").forEach(f=>{ f.style.width=f.dataset.w+"%"; }),120);
+}
+
+/* ---------- embed mode ---------- */
+(function embed(){
+  const p=new URLSearchParams(location.search);
+  if(p.get("embed")==="1" || p.has("embed")) document.body.classList.add("embed");
+})();
+
+/* ---------- boot ---------- */
+(async function(){
+  // позначити верхні блоки для reveal
+  ["#hero","#daily",".stats","#rishalo",".grid-head","#cta"].forEach((s,i)=>{
+    const el=document.querySelector(s); if(el){ el.classList.add("reveal"); el.style.transitionDelay=(i*70)+"ms"; }
+  });
+  try{
+    const M=await loadData();
+    render(M);
+    $("#overlay").classList.add("hide");
+    setTimeout(()=>$("#overlay").remove(),600);
+  }catch(err){
+    console.error(err);
+    $("#loader").style.display="none";
+    $("#errbox").style.display="";
+  }
+})();
+</script>
+</body>
+</html>
