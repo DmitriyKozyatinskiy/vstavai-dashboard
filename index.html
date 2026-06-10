@@ -380,7 +380,7 @@ const CONFIG = {
   sheetId: "1xdAiW4RMRWVXDKl4Bycw3rVkjKdt8miEJjZtfrtlUYQ",
   banksGid: "0",                      // основний аркуш (перша вкладка) — за gid, без назви
   snapshotsSheet: "snapshots",        // опційний аркуш (денний прогрес)
-  jarSnapshotsSheet: "jar_snapshots", // опційний аркуш (Рішала дня)
+  jarSnapshotsSheet: "jar_snapshots", // опційний аркуш (Дружбанчик дня)
   // параметри кампанії
   goal: 4240000,
   courseCost: 42400,
@@ -396,7 +396,6 @@ const CONFIG = {
 
 /* ---------- helpers ---------- */
 const $ = (s,r=document)=>r.querySelector(s);
-const KYIV_OFF = 3*3600*1000; // UTC+3 (TZ)
 const fmtMoney = (n,dec=2)=> (n==null||isNaN(n)) ? "—" :
   new Intl.NumberFormat("uk-UA",{minimumFractionDigits:dec,maximumFractionDigits:dec}).format(n)+" ₴";
 const fmtInt = n => new Intl.NumberFormat("uk-UA").format(Math.round(n));
@@ -430,14 +429,15 @@ function parseGvizDate(v){
   if(!m) { const d=new Date(v); return isNaN(d)?null:d; }
   return new Date(Date.UTC(+m[1],+m[2],+m[3],(+m[4]||0)-3,(+m[5]||0),(+m[6]||0))); // трактуємо як Київ
 }
-function kyivYMD(date){ const t=new Date(date.getTime()+KYIV_OFF); return t.getUTCFullYear()+"-"+String(t.getUTCMonth()+1).padStart(2,"0")+"-"+String(t.getUTCDate()).padStart(2,"0"); }
-function kyivHM(date){ const t=new Date(date.getTime()+KYIV_OFF); return String(t.getUTCHours()).padStart(2,"0")+":"+String(t.getUTCMinutes()).padStart(2,"0"); }
-function kyivDateStr(date){ const t=new Date(date.getTime()+KYIV_OFF); return String(t.getUTCDate()).padStart(2,"0")+"."+String(t.getUTCMonth()+1).padStart(2,"0")+"."+t.getUTCFullYear()+" "+kyivHM(date); }
+// усі дати — у поясі Європа/Київ, з урахуванням переходу літо/зима (DST-aware)
+const TZ="Europe/Kyiv";
+function kyivYMD(date){ return new Intl.DateTimeFormat("en-CA",{timeZone:TZ}).format(date); }   // YYYY-MM-DD
+function kyivHM(date){ return new Intl.DateTimeFormat("uk-UA",{timeZone:TZ,hour:"2-digit",minute:"2-digit",hour12:false}).format(date); }
+function kyivDateStr(date){ return new Intl.DateTimeFormat("uk-UA",{timeZone:TZ,day:"2-digit",month:"2-digit",year:"numeric"}).format(date)+" "+kyivHM(date); }
 function daysUntil(deadlineStr, fromDate){
-  const f=new Date(fromDate.getTime()+KYIV_OFF);              // календарна різниця у днях (Київ)
-  const fM=Date.UTC(f.getUTCFullYear(),f.getUTCMonth(),f.getUTCDate());
-  const [y,m,d]=deadlineStr.split("-").map(Number);
-  return Math.max(1, Math.round((Date.UTC(y,m-1,d)-fM)/86400000));
+  const [y,m,d]=kyivYMD(fromDate).split("-").map(Number);     // календарна різниця у днях (Київ)
+  const [Y,M,D]=deadlineStr.split("-").map(Number);
+  return Math.max(1, Math.round((Date.UTC(Y,M-1,D)-Date.UTC(y,m-1,d))/86400000));
 }
 
 /* ---------- gviz через JSONP (працює навіть з file:// — без CORS і без сервера) ---------- */
@@ -560,7 +560,7 @@ function finalize(jars, raffle, snaps, asOf){
   const active=jars.filter(isActive), closed=jars.filter(isClosed);
   const total = (snapTotal!=null) ? snapTotal : (sumColl(jars)+CONFIG.mainJarBalance);  // реальний загальний збір зі snapshots; інакше — сума банок
 
-  // Рішала дня — активна банка з max денним приростом (потрібен аркуш jar_snapshots)
+  // Дружбанчик дня — активна банка з max денним приростом (потрібен аркуш jar_snapshots)
   let rishalo=null;
   active.forEach(j=>{
     const d=j.delta;
@@ -631,7 +631,6 @@ function render(M){
 }
 
 function dl(){ const [y,m,d]=CONFIG.deadline.split("-"); return `${d}.${m}`; }
-function shortDate(date){ const t=new Date(date.getTime()+KYIV_OFF); return String(t.getUTCDate()).padStart(2,"0")+"."+String(t.getUTCMonth()+1).padStart(2,"0"); }
 function plural(n,one,few,many){ n=Math.abs(n)%100; const n1=n%10;
   if(n>10&&n<20) return many; if(n1>1&&n1<5) return few; if(n1===1) return one; return many; }
 
@@ -677,15 +676,15 @@ function renderStats(M){
 function renderRishalo(M){
   const box=$("#rishaloIn");
   if(!M.rishalo){
-    box.innerHTML=`<div class="rishalo-badge"><span class="rishalo-flame">🔥</span> Рішала дня</div>
+    box.innerHTML=`<div class="rishalo-badge"><span class="rishalo-flame">🔥</span> Дружбанчик дня</div>
       <div class="rishalo-empty">Сьогодні ще немає даних для визначення лідера дня.</div>`;
     return;
   }
   const j=M.rishalo.j, url=safeUrl(j.mono), pct=Math.round(j.pct||0);
   const nick=esc(j.name);
-  const k1=`🔥 Рішала дня — ${j.name.startsWith("@")?j.name:"@"+j.name}: +${fmtMoney(M.rishalo.delta,0)} за сьогодні · прогрес: ${pct}%${url?" · "+url:""}`;
+  const k1=`🔥 Дружбанчик дня — ${j.name.startsWith("@")?j.name:"@"+j.name}: +${fmtMoney(M.rishalo.delta,0)} за сьогодні · прогрес: ${pct}%${url?" · "+url:""}`;
   box.innerHTML=`
-    <div class="rishalo-badge"><span class="rishalo-flame">🔥</span> Рішала дня</div>
+    <div class="rishalo-badge"><span class="rishalo-flame">🔥</span> Дружбанчик дня</div>
     <div class="rishalo-body">
       ${url?`<a class="rishalo-nick" href="${url}" target="_blank" rel="noopener">${nick}</a>`:`<span class="rishalo-nick">${nick}</span>`}
       <span class="rishalo-gain">+${fmtMoney(M.rishalo.delta,0)} за сьогодні</span>
