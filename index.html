@@ -387,7 +387,7 @@ const CONFIG = {
   courses: 100,
   totalLots: 42,
   deadline: "2026-06-30",   // TZ §8 — уточнити; формат YYYY-MM-DD (Київ, UTC+3)
-  updateHours: 4,           // частота оновлення ~3–4 год
+  updateHours: 2,           // частота оновлення (Lambda — щодві години)
   mainJarBalance: 0,        // баланс «Основної банки» фонду, ₴ (браузер не читає monobank). 0 = рахувати лише банки учасників; впишіть число вручну за потреби
   // плейсхолдери замовника (TZ §8)
   ctaUrl: "#",              // → URL кнопки «Стати учасником»
@@ -537,14 +537,13 @@ function finalize(jars, raffle, snaps, asOf){
 
   // денний прогрес і «Рішала» — лише з аркушів snapshots / jar_snapshots (якщо їх веде бекенд)
   const dayKey=kyivYMD(asOf);
-  let dailyCollected=null, perJarDelta={};
+  let dailyCollected=null, perJarDelta={}, snapTotal=null;
   if(snaps && snaps.snap){
-    const todays=snaps.snap.map(r=>({t:parseGvizDate(r["_0"]),tot:parseAmount(r["_1"])}))
-      .filter(x=>x.t && kyivYMD(x.t)===dayKey).sort((a,b)=>a.t-b.t);
-    if(todays.length){
-      const totalNow=jars.reduce((s,j)=>s+j.collected,0)+CONFIG.mainJarBalance;
-      dailyCollected=Math.max(0,totalNow-todays[0].tot);
-    }
+    const series=snaps.snap.map(r=>({t:parseGvizDate(r["_0"]),tot:parseAmount(r["_1"])}))
+      .filter(x=>x.t && x.tot!=null).sort((a,b)=>a.t-b.t);
+    if(series.length) snapTotal=series[series.length-1].tot;            // останній знімок = реальний загальний збір (банер monobank)
+    const todays=series.filter(x=>kyivYMD(x.t)===dayKey);
+    if(todays.length && snapTotal!=null) dailyCollected=Math.max(0,snapTotal-todays[0].tot);
     if(snaps.jarSnap && snaps.jarSnap.length){
       const firstBy={};
       snaps.jarSnap.map(r=>({t:parseGvizDate(r["_0"]),name:String(r["_1"]||"").trim(),slug:(/\/jar\/([A-Za-z0-9]+)/.exec(String(r["_2"]||""))||[])[1],coll:parseAmount(r["_3"])}))
@@ -559,7 +558,7 @@ function finalize(jars, raffle, snaps, asOf){
   const isClosed=j=>j.status==="Закрита";
   const sumColl=arr=>arr.reduce((s,j)=>s+j.collected,0);
   const active=jars.filter(isActive), closed=jars.filter(isClosed);
-  const total=sumColl(jars)+CONFIG.mainJarBalance;   // банки учасників + основна банка фонду (CONFIG)
+  const total = (snapTotal!=null) ? snapTotal : (sumColl(jars)+CONFIG.mainJarBalance);  // реальний загальний збір зі snapshots; інакше — сума банок
 
   // Рішала дня — активна банка з max денним приростом (потрібен аркуш jar_snapshots)
   let rishalo=null;
