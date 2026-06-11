@@ -510,8 +510,11 @@ async function loadData(){
     };
   }).filter(Boolean);
 
+  // I2 — «Загально лишилось зібрати» (стовпець I, індекс 8, перший рядок даних)
+  const remainingI2 = (d.table.rows[0] && d.table.rows[0].c[8]) ? parseAmount(d.table.rows[0].c[8].v) : null;
+
   const snaps=await tryLoadSnapshots();
-  return finalize(jars, [], snaps, new Date());
+  return finalize(jars, [], snaps, new Date(), remainingI2);
 }
 
 // опційні аркуші snapshots / jar_snapshots
@@ -528,7 +531,7 @@ async function tryLoadSnapshots(){
 }
 
 /* ---------- compute everything ---------- */
-function finalize(jars, raffle, snaps, asOf){
+function finalize(jars, raffle, snaps, asOf, remainingI2){
   jars.forEach(j=>{
     j.collected = (j.liveCollected!=null) ? j.liveCollected : 0;   // стовпець G порожній → 0 (без мок-даних)
     j.hasData = (j.goal!=null);                                     // рядки без цілі = заготовки
@@ -582,6 +585,7 @@ function finalize(jars, raffle, snaps, asOf){
     jars, raffle, asOf,
     total, pct:clampPct(total/CONFIG.goal*100), rehab:floorRehab(total),
     activeCount:active.length, activeSum:sumColl(active), activeRehab:floorRehab(sumColl(active)),
+    remaining:remainingI2,   // I2 «Загально лишилось зібрати» — вторинне значення для «Активних банок»
     closedCount:closed.length, closedSum:sumColl(closed), closedRehab:floorRehab(sumColl(closed)),
     dailyCollected, dailyGoal:needPerDay, days, needPerDay,
     rishalo, lotsDrawn, lotsRemaining, lotsLinked,
@@ -656,8 +660,8 @@ function renderDaily(M){
 function renderStats(M){
   const chips=[
     {l:"Збір на",v:String(CONFIG.courses),vc:"sea",s:"реабілітацій"},
-    {l:"Активних банок",v:fmtInt(M.activeCount),vc:"sea",s:fmtMoney(M.activeSum,0),e:`≈ ${M.activeRehab} ${plural(M.activeRehab,"реабілітація","реабілітації","реабілітацій")}`},
-    {l:"Закритих банок",v:fmtInt(M.closedCount),vc:"",s:fmtMoney(M.closedSum,0),e:`≈ ${M.closedRehab} ${plural(M.closedRehab,"реабілітація","реабілітації","реабілітацій")}`},
+    {l:"Активних банок",v:fmtInt(M.activeCount),vc:"sea",s:`${fmtMoney(M.remaining!=null?M.remaining:M.activeSum,0)} лишилось зібрати`},
+    {l:"Закритих банок",v:fmtInt(M.closedCount),vc:"",s:`${fmtMoney(M.closedSum,0)} зібрано`,e:`≈ ${M.closedRehab} ${plural(M.closedRehab,"реабілітація","реабілітації","реабілітацій")}`},
     {l:"Всього зібрано",v:fmtMoney(M.total,0),vc:"sea",s:`з ${fmtMoney(CONFIG.goal,0)}`,small:true},
     {l:"Лоти",v:`${M.lotsDrawn} / ${CONFIG.totalLots}`,vc:"",s:`розіграно · ${M.lotsRemaining} залишилось`,lots:true},
   ];
